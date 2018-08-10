@@ -1,46 +1,3 @@
-<div class="container mt-5">
-  <ngx-spinner
-    bdColor="rgba(255, 255, 255)"
-    size="medium"
-    color="#000"
-    type="ball-spin"
-  ></ngx-spinner>
-  <!--/ ngx-spinner-->
-  <div class="row">
-    <div class="col col-6 mb-3" *ngFor="let post of posts; let i=index">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">{{ post.title }}</h4>
-          <p class="card-title">{{ post.body }}</p>
-          <div class=" clearfix">
-            <button type="button" class="btn btn-secondary float-left"
-                    (click)="post.showCommit = !post.showCommit; showReviews(post.id)">
-              Comments
-            </button>
-            <button type="button" class="btn btn-secondary float-right  btn-danger" *ngIf="isAdmin"
-                    (click)="onDelete(post.id, i)">Delete
-            </button>
-          </div>
-          <div class="card commit" *ngIf="post.showCommit">
-            <div class="card-body  commit" *ngFor="let comment of post.reviews">
-              <h5>{{comment.name}}</h5>
-              <p>{{comment.email}}</p>
-              <p>{{comment.body}}</p>
-            </div>
-            <!--/ card-body commit-->
-          </div>
-          <!--/ card commit-->
-        </div>
-        <!--/ card-body-->
-      </div>
-      <!--/ card-->
-    </div>
-    <!--/ col-->
-  </div>
-  <!--/ row-->
-</div>
-<!--/ container-->
-
 <div class="container  mt-5">
   <div class="card mb-5" id="form">
     <h2 class="title text-center mt-5">Add new post</h2>
@@ -95,5 +52,47 @@
     </div>
   </div>
   <!--/ card-->
+
+  <ngx-spinner
+    bdColor="rgba(255, 255, 255)"
+    size="medium"
+    color="#000"
+    type="ball-spin"
+  ></ngx-spinner>
+  <!--/ ngx-spinner-->
+  <div class="row">
+    <div class="col col-6 mb-3" *ngFor="let post of posts; let i=index">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">{{ post.title }}</h4>
+          <p class="card-title">{{ post.body }}</p>
+          <div class=" clearfix">
+            <button type="button" class="btn btn-secondary float-left"
+                    (click)="post.showCommit = !post.showCommit; showReviews(post.id)">
+              Comments
+            </button>
+            <button type="button" class="btn btn-secondary float-right  btn-danger" *ngIf="isAdmin"
+                    (click)="onDelete(post.id, i)">Delete
+            </button>
+          </div>
+          <div class="card commit" *ngIf="post.showCommit">
+            <div class="card-body  commit" *ngFor="let comment of post.reviews">
+              <h5>{{comment.name}}</h5>
+              <p>{{comment.email}}</p>
+              <p>{{comment.body}}</p>
+            </div>
+            <!--/ card-body commit-->
+          </div>
+          <!--/ card commit-->
+        </div>
+        <!--/ card-body-->
+      </div>
+      <!--/ card-->
+    </div>
+    <!--/ col-->
+  </div>
+  <!--/ row-->
 </div>
 <!--/ container-->
+
+
