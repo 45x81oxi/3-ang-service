@@ -1,0 +1,22 @@
+<div class="card" [ngClass]="{'active':editPostId === postItem.id}">
+  <div class="card-body">
+    <h4 class="card-title">{{postItem.title}}</h4>
+    <p class="card-title">{{postItem.body}}</p>
+    <button type="button" class="btn btn-default btn-sm"
+            (click)="postItem.showCommit = !postItem.showCommit; showReviews(postItem.id)">Comments
+    </button>
+    <div class="card" *ngIf="postItem.showCommit">
+      <app-comment-item *ngFor="let item of postItem.reviews" [comment]="item"></app-comment-item>
+    </div>
+    <!--/ card commit-->
+    <div>
+      <button type="button" class="btn btn-secondary float-left" (click)="onEdit(postItem)" *ngIf="!editPostId">Edit
+      </button>
+      <button type="button" class="btn btn-secondary float-left" (click)="onCancel()" *ngIf="editPostId">Cancel</button>
+      <button type="button" class="btn btn-danger float-right" *ngIf="isAdmin" (click)="onDelete(postItem.id)">Delete
+      </button>
+    </div>
+  </div>
+  <!--/ card-body-->
+</div>
+<!--/ card-->

@@ -10,12 +10,18 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FormsModule } from "@angular/forms";
+import { PostItemComponent } from './components/post-item/post-item.component';
+import { CommentItemComponent } from './components/comment-item/comment-item.component';
+import { AddNewPostFormComponent } from './components/add-new-post-form/add-new-post-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    PostsComponent
+    PostsComponent,
+    PostItemComponent,
+    CommentItemComponent,
+    AddNewPostFormComponent
   ],
   imports: [
     BrowserModule,

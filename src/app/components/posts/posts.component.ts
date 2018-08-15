@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PostsService } from "../../services/posts.service";
 import { Post } from "../../models/Post";
 import { ToastrService } from "ngx-toastr";
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgForm } from "@angular/forms";
 import { Comment } from "../../models/Comment";
 
 @Component({
@@ -14,14 +13,7 @@ import { Comment } from "../../models/Comment";
 
 export class PostsComponent implements OnInit {
   posts: Post[];
-  post: Post = {
-    userId: 1,
-    title: "",
-    body: ""
-  };
 
-  isAdmin = true;
-  @ViewChild('form') form: NgForm;
 
   constructor(
     public  postService: PostsService,
@@ -39,6 +31,7 @@ export class PostsComponent implements OnInit {
       this.spinner.hide();
       this.toastr.error(error.message, 'Error');
     });
+
   }
 
 
@@ -48,7 +41,7 @@ export class PostsComponent implements OnInit {
         if (item.id === id) {
           item.reviews = data;
         }
-      })
+      });
       if (!data.length) {
         this.toastr.info('No reviews', 'Message');
       }
@@ -57,40 +50,40 @@ export class PostsComponent implements OnInit {
     });
   }
 
-  onSubmit(form) {
-    if (form.invalid)return;
 
-    const post: Post = {
-      userId: 1,
-      title: this.post.title,
-      body: this.post.body,
-    };
-
-    this.spinner.show();
-    this.postService.addPost(post).subscribe((item: Post) => {
-      this.posts.push(item);
-      this.spinner.hide();
-      this.toastr.success('News successfully added', 'Message');
-    }, error => {
-      this.spinner.hide();
-      this.toastr.error(error.message, 'Error');
-    });
-    this.form.resetForm();
+  onAddPost(post: Post): void {
+    this.posts.unshift(post);
+    this.spinner.hide();
   }
 
 
-  onDelete(id: number, index: number) {
+  onUpdatePost(post: Post): void {
+    this.posts.forEach((data) => {
+      if (post.id === data.id) {
+        Object.assign( data, post);
+      }
+    });
+  }
+
+
+  onEdit(post: Post): void {
+    this.postService.emitEditEvent(post);
+  }
+
+
+  onDelete(id: number, index: number): void {
+    this.spinner.show();
     //Условие для удаления созданных постов
     if (id > 100) {
       this.posts.splice(index, 1);
       this.toastr.success('Post deleted success', 'Message');
+      this.spinner.hide();
     }//Удаление постов с запросом к серверу
     else {
-      this.spinner.show();
       this.postService.deletePost(id).subscribe((data: Object) => {
         this.posts = this.posts.filter(post => post.id != id);
-        this.spinner.hide();
         this.toastr.success('Post deleted success', 'Message');
+        this.spinner.hide();
       }, error => {
         this.spinner.hide();
         this.toastr.error(error.message, 'Error');
